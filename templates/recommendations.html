@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your recommendations</title>
+     <style>
+        body { font-family: sans-serif; max-width: 700px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        h1 { border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        ol { padding-left: 20px; }
+        li { margin-bottom: 10px; padding: 8px; border: 1px solid #eee; border-radius: 4px; background-color: #f9f9f9; }
+        .song-title { font-weight: bold; }
+        .artist-name { color: #555; font-style: italic;}
+        .play-count { font-size: 0.9em; color: #888; float: right; }
+        .back-link { display: inline-block; margin-top: 20px; color: #007bff; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+        .error { color: red; margin-top: 10px; font-weight: bold;}
+    </style>
+</head>
+<body>
+    <h1>Here are your song recommendations</h1>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% elif recommendations %}
+        <ol>
+            {% for song in recommendations %}
+            <li>
+                <span class="play-count">Predicted plays: {{ "%.2f"|format(song.predicted_plays) }}</span>
+                <span class="song-title">{{ song.title }}</span><br>
+                <span class="artist-name">{{ song.artist_name }}</span>
+                {# <small>(ID: {{ song.song_id }})</small> #}
+            </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <p>No recommendations generated</p>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}" class="back-link">« Start a new search</a>
+</body>
+</html>

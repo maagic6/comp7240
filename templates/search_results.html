@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select songs</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        h1, h2 { border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 10px; padding: 5px; border-radius: 4px; background-color: #f9f9f9;}
+        label { display: block; cursor: pointer; }
+         input[type="checkbox"] { margin-right: 10px; }
+        button { padding: 10px 15px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 20px;}
+        button:hover { background-color: #218838; }
+         .back-link { display: inline-block; margin-top: 20px; color: #007bff; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+        .error { color: red; margin-top: 10px; font-weight: bold;}
+        .no-results { color: #666; }
+        .result-group { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Search results for "{{ query }}"</h1>
+    <a href="{{ url_for('index') }}" class="back-link">« New search</a>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if results %}
+        <p>Select the songs you meant from the list below:</p>
+        <form action="{{ url_for('recommend') }}" method="post">
+            {% for term, songs in results.items() %}
+                <div class="result-group">
+                    <h2>Results for: '{{ term }}'</h2>
+                    {% if songs %}
+                        <ul>
+                            {% for song in songs %}
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="selected_songs" value="{{ song.song_id }}">
+                                    {{ song.title }} - {{ song.artist_name }} (ID: {{ song.song_id }})
+                                </label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="no-results">No matches found for this term</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit">Get Recommendations</button>
+        </form>
+    {% elif not error %} {# Only show this if there are no results AND no specific error message #}
+         <p class="no-results">No songs found matching your query</p>
+    {% endif %}
+
+</body>
+</html>
