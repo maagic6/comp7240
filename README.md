@@ -35,3 +35,16 @@ To run with auto-reload and error pages:
 # make sure debug=True in app.py's app.run() line
 flask run
 ```
+
+## Model type
+
+Specify model type in app.py
+```bash
+...
+recommender = None
+if RECOMMENDER_AVAILABLE and AdvancedMusicRecommender:
+    print("Initializing music recommender")
+    recommender = AdvancedMusicRecommender(model_type="fusion") # fusion, gmf, mlp
+    if recommender.model is None:
+...
+```

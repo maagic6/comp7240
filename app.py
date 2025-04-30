@@ -6,10 +6,10 @@ import tensorflow as tf
 
 # import recommender class
 try:
-    from fusion_predict import AdvancedMusicRecommender
+    from predict import AdvancedMusicRecommender
     RECOMMENDER_AVAILABLE = True
 except ImportError as e:
-    print(f"Could not import AdvancedMusicRecommender from Fusion_predict.py: {e}")
+    print(f"Could not import AdvancedMusicRecommender from predict.py: {e}")
     AdvancedMusicRecommender = None
     RECOMMENDER_AVAILABLE = False
 except Exception as e:
@@ -26,7 +26,7 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))
 recommender = None
 if RECOMMENDER_AVAILABLE and AdvancedMusicRecommender:
     print("Initializing music recommender")
-    recommender = AdvancedMusicRecommender()
+    recommender = AdvancedMusicRecommender(model_type="fusion")
     if recommender.model is None:
         print("Recommender initialization failed (check logs above)")
         recommender = None
@@ -124,7 +124,7 @@ def recommend():
         recommendations_list = recommendations_df.to_dict('records')
         return render_template('recommendations.html', recommendations=recommendations_list)
 
-    except ValueError as e: # catch errors by recommener
+    except ValueError as e: # catch errors by recommender
          print(f"Flask: Value error during recommendation: {e}")
          if original_search_results:
               return render_template('search_results.html',
@@ -135,7 +135,7 @@ def recommend():
               return redirect(url_for('index')) # fallback
 
     except RuntimeError as e: # catch recommender not initialized errors
-          print(f"Flask: Runtime Error during recommendation: {e}")
+          print(f"Flask: Runtime error during recommendation: {e}")
           return render_template('index.html', error="Sorry, the recommendation engine encountered an internal state error")
 
     except Exception as e:
