@@ -19,10 +19,8 @@
     <form action="{{ url_for('search') }}" method="post">
         <div class="mb-3">
             <label for="query" class="form-label">Your favorite songs/artists:</label>
-            <!-- Add form-control class to input -->
             <input type="text" class="form-control form-control-lg" id="query" name="query" placeholder="e.g., The Beatles, Bohemian Rhapsody, Adele" required>
         </div>
-        <!-- Add Bootstrap button classes -->
         <button type="submit" class="btn btn-primary btn-lg">Search songs</button>
     </form>
 {% endblock %}

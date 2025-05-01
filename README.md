@@ -5,7 +5,7 @@ Web interface for music recommender
 ## Setup
 
 1.  **Create `data` folder:** Create a folder named `data` in the same directory as `app.py`
-2.  **Add files to `data`:** Put these files inside the `data` folder:
+2.  **Add files to `data`:** Put these files inside the `data` folder (fusion example):
     *   `msd_summary_file.h5`
     *   `best_fusion_model.keras`
     *   `song_encoder_fusion.pkl`
